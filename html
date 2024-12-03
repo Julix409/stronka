@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zbieraj Punkty z Umiejętnościami</title>
+    <style>
+        /* Ustawienie tła */
+        body {
+            background-image: url('https://4kwallpapers.com/images/walls/thumbs_3t/19469.jpg');
+            background-size: cover; /* Dopasowanie tła do rozmiaru ekranu */
+            background-position: center; /* Ustalenie pozycji tła na środku */
+            background-attachment: fixed; /* Tło jest przypięte do ekranu */
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ffffff;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .score {
+            font-size: 30px;
+            color: #ffffff;
+            margin-top: 20px;
+        }
+
+        .upgrade-buttons {
+            margin-top: 30px;
+        }
+
+        .upgrade-button {
+            background-color: #ffa500;
+            padding: 10px 20px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Zbieraj Punkty z Umiejętnościami!</h1>
+<p>Klikaj w przycisk, aby zdobyć punkty, a także ulepszaj swoje umiejętności!</p>
+
+<!-- Przycisk do zbierania punktów -->
+<button class="button" onclick="addPoints()">Zdobądź Punkt</button>
+
+<p class="score">Punkty: <span id="score">0</span></p>
+
+<!-- Wyświetlenie rekordu -->
+<p>Rekord: <span id="highScore">0</span></p>
+
+<!-- Przyciski do zakupu ulepszeń -->
+<div class="upgrade-buttons">
+    <button class="upgrade-button" onclick="buyUpgrade(2)">Kup Punkty x2 (100 punktów)</button>
+    <button class="upgrade-button" onclick="buyUpgrade(5)">Kup Punkty x5 (500 punktów)</button>
+    <button class="upgrade-button" onclick="buyUpgrade(10)">Kup Punkty x10 (1000 punktów)</button>
+    <button class="upgrade-button" onclick="buyUpgrade(50)">Kup Punkty x50 (5000 punktów)</button>
+    <button class="upgrade-button" onclick="buyUpgrade(100)">Kup Punkty x100 (10000 punktów)</button>
+    <button class="upgrade-button" onclick="buyUpgrade(500)">Kup Punkty x500 (50000 punktów)</button>
+    <button class="upgrade-button" onclick="buyUpgrade(1000)">Kup Punkty x1000 (100000 punktów)</button>
+    <button class="upgrade-button" onclick="buyUpgrade(5000)">Kup Punkty x5000 (500000 punktów)</button>
+    <button class="upgrade-button" onclick="buyUpgrade(10000)">Kup Punkty x10000 (1000000 punktów)</button>
+    <button class="upgrade-button" onclick="buyUpgrade(50000)">Kup Punkty x50000 (5000000 punktów)</button>
+    <button class="upgrade-button" onclick="buyUpgrade(100000)">Kup Punkty x100000 (10000000 punktów)</button>
+    <button class="upgrade-button" onclick="buyUpgrade(1000000)">Kup Punkty x1000000 (50000000 punktów)</button>
+</div>
+
+<script>
+    let points = 0;
+    let doublePoints = 1; // Punkty na początku są 1x
+    let highScore = localStorage.getItem('highScore') || 0; // Pobieramy rekord z localStorage
+    document.getElementById('highScore').innerText = highScore;
+
+    // Funkcja do dodawania punktów
+    function addPoints() {
+        points += doublePoints;
+        document.getElementById('score').innerText = points;
+        saveHighScore(); // Zapisujemy rekord po każdym dodaniu punktów
+    }
+
+    // Funkcja do kupowania ulepszeń
+    function buyUpgrade(multiplier) {
+        let cost = getUpgradeCost(multiplier);
+
+        if (points >= cost) {
+            points -= cost;
+            doublePoints = multiplier;
+            document.getElementById('score').innerText = points;
+            alert(`Masz teraz Punkty x${multiplier}!`);
+            saveHighScore(); // Zapisujemy rekord
+        } else {
+            alert("Nie masz wystarczającej liczby punktów!");
+        }
+    }
+
+    // Funkcja do obliczenia kosztu ulepszenia
+    function getUpgradeCost(multiplier) {
+        switch (multiplier) {
+            case 2:
+                return 100;
+            case 5:
+                return 500;
+            case 10:
+                return 1000;
+            case 50:
+                return 5000;
+            case 100:
+                return 10000;
+            case 500:
+                return 50000;
+            case 1000:
+                return 100000;
+            case 5000:
+                return 500000;
+            case 10000:
+                return 1000000;
+            case 50000:
+                return 5000000;
+            case 100000:
+                return 10000000;
+            case 1000000:
+                return 50000000;
+            default:
+                return 0;
+        }
+    }
+
+    // Funkcja do zapisywania rekordu
+    function saveHighScore() {
+        if (points > highScore) {
+            highScore = points;
+            document.getElementById('highScore').innerText = highScore;
+            localStorage.setItem('highScore', highScore); // Zapisujemy rekord do localStorage
+        }
+    }
+</script>
+
+</body>
+</html>
